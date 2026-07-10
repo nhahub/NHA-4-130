@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASL Live — Sign to Sentence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="hdr">
+    <h1>ASL <span>LIVE</span> · sign → gloss → sentence</h1>
+    <div class="sub" id="wsStatus">connecting…</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- ── camera stage ─────────────────────────────────────── -->
+    <div class="stage" id="stage">
+      <video id="video" autoplay playsinline muted></video>
+      <canvas id="overlay"></canvas>
+
+      <div class="hud-top">
+        <div class="badge fps" id="fpsBadge">FPS: —</div>
+        <div class="badge mode-dynamic" id="modeBadge">DYNAMIC (word)</div>
+      </div>
+
+      <div class="label-block">
+        <div class="label-main" id="labelMain">—</div>
+        <div class="label-conf" id="labelConf"></div>
+      </div>
+
+      <div class="buffer-wrap">
+        <div class="buffer-track"><div class="buffer-fill" id="bufferFill"></div></div>
+        <div class="buffer-txt" id="bufferTxt">buffer 0/60</div>
+      </div>
+
+      <div class="hands-txt" id="handsTxt">L-hand: ✗ &nbsp; R-hand: ✗</div>
+    </div>
+
+    <!-- ── side panel ───────────────────────────────────────── -->
+    <div class="panel">
+
+      <div>
+        <h2>Top predictions</h2>
+        <div id="top5"></div>
+      </div>
+
+      <div>
+        <h2>Controls</h2>
+        <div class="controls">
+          <button id="btnMode" class="wide">Toggle mode (C)</button>
+          <button id="btnAdd" class="primary">Add <kbd>A</kbd></button>
+          <button id="btnWord">Finish word <kbd>W</kbd></button>
+          <button id="btnUndo">Undo <kbd>B</kbd></button>
+          <button id="btnReset">Reset buffer <kbd>R</kbd></button>
+          <button id="btnToggleLandmarks" class="on">Landmarks: on <kbd>V</kbd></button>
+          <button id="btnLLM">LLM: on <kbd>L</kbd></button>
+          <button id="btnGenerate" class="wide primary">Generate sentence <kbd>G</kbd></button>
+          <button id="btnClear" class="wide">Clear all <kbd>X</kbd></button>
+          <button id="btnSpeak" class="wide">🔊 Speak sentence</button>
+          <button id="btnAutoSpeak" class="wide off">Auto-speak: off</button>
+        </div>
+      </div>
+
+      <div>
+        <h2>Gloss buffer</h2>
+        <div class="gloss-box" id="glossBox"><span class="empty">(empty)</span></div>
+      </div>
+
+      <div>
+        <h2>Generated sentence</h2>
+        <div class="sentence-box" id="sentenceBox"><span class="empty">Press "Generate sentence" once you have a few words.</span></div>
+        <div class="sentence-meta" id="sentenceMeta"></div>
+      </div>
+
+      <div class="status-line">
+        <span><span class="dot ok" id="camDot"></span>camera</span>
+        <span><span class="dot ok" id="modelDot"></span>models</span>
+        <span><span class="dot ok" id="wsDot"></span>socket</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    Landmarks are extracted in-browser (MediaPipe Tasks Vision) and streamed to the FastAPI
+    backend over a WebSocket for classification. Sentence speech uses your browser's built-in
+    speech synthesis — nothing audio is sent to the server. Keyboard shortcuts mirror the
+    original desktop app: Q/ESC quit·SPACE pause·R reset·C mode·A add·W word·B undo·L llm·G generate·X clear.
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

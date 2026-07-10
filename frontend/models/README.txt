@@ -1,0 +1,1 @@
+Place hand_landmarker.task and pose_landmarker_lite.task here (same files used by the original desktop script). Download from https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker and .../pose_landmarker
